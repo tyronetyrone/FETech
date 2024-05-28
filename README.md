@@ -1,9 +1,9 @@
 # web前端的前世今生
 ----前端技术慢聊
 ## 技术图谱
-![大前端](https://github.com/tyronetyrone/FETech/blob/main/FE.webp "FE")
-[技能树1](https://github.com/xixileng/fe-knowledge)
-[技能树2](https://f2e.tech/)
+![大前端](https://github.com/tyronetyrone/FETech/blob/main/FE.webp "FE")  
+[技能树1](https://github.com/xixileng/fe-knowledge)  
+[技能树2](https://f2e.tech/)  
 
 ## 历史时间线
 1990年12月-1991年，第一个Web浏览器的诞生。WorldWideWeb。蒂姆·伯纳斯-李。WWW（World Wide Web）的诞生，这标志着前端技术的开始。
@@ -140,7 +140,272 @@ console.log('script end')
 
 
 ### 未整理
+三板斧。HTML，CSS，JavaScript
 
+
+https://what-is-fe.gitee.io/
+工作内容博客笔记
+1.vue form验证及清除验证文字
+a.this.$refs.form.clearValidate('portraitLabel')
+b.123
+portraitLabel: [
+{required: true, message: '请选择画像标签', trigger: 'blur'},
+{
+validator: (rule, value, callback) => {
+callback()promi
+}
+}
+c.    ]
+2.输入框回车换行问题
+3.多条件筛选
+a.
+4.dom绑定事件的三种方式，核心原理，区别。闭包防抖踩坑
+1. 在html标签中直接绑定；
+2. 在js中获取到相应的dom元素后绑定；
+3. 在js中使用addEventListener（）实现绑定；和html中绑定事件有什么区别
+
+5.konva图表
+6.axios中断请求
+
+知识点
+1.有没有遇到过console报错行数对不上的问题
+2.diff算法
+3.可编程管线技术
+4.闭包
+a.var preorderTraversal = function(root) {
+let res=[];
+const dfs=function(root){
+if(root===null)return ;
+//先序遍历所以从父节点开始
+res.push(root.val);
+//递归左子树
+dfs(root.left);
+//递归右子树
+dfs(root.right);
+}
+//只使用一个参数 使用闭包进行存储结果
+dfs(root);
+return res;
+};
+
+
+
+5.clearTimeout
+6.Same-value-zero equality算法
+7.var
+8.Array = arr.flat([depth]);
+9.深度优先遍历和广度优先遍历，递归
+10.暂时性死区
+11.react生命周期各阶段参数
+12.cookieParser源码
+13.浏览器缓存
+14.http缓存
+15.call 和 apply 手写实现
+16.valueOf
+17.水平垂直居中https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/92
+18.transform，translate，translate3d
+19.连续赋值
+20.stringify源码
+21.JavaScript Proxy
+22.JavaScript继承
+23.webpack热更新
+24.函数科里化
+25.原型与原型链
+●prototype
+●__proto__
+●[[prototype]]
+26.函数 箭头函数，同步和异步
+27.形参 匿名函数 xx函数
+28.形参使用扩展操作符 扩展运算符
+29.window
+30.模块
+31.instanceof
+32.new操作符
+33.对象字面量
+34.JavaScript堆和栈
+35.垃圾回收机制
+a.https://segmentfault.com/a/1190000025129635
+36.MutationObserver 前端回溯
+37.cookieparser
+38.浏览器cookie 前端能干什么  后端能干什么
+39.原型方法 实例方法 直接方法 静态方法  static
+40.promise链式调用原理  源码
+41.setState都做了什么事  在什么阶段更新state  源码
+42.箭头函数有什么区别  this指向
+var o={
+fn: () => { //普通函数和箭头函数
+this
+}
+};
+o.fn() // this是什么？
+var f=o.fn;
+f() // this是什么？
+43.webpack热更新
+44.canvas详细
+45.h5新特性 video audio等
+46.vue3.0有什么兼容问题
+47.const let原理 const为什么能修改对象深层属性
+48.跨域 后台设置 *  有什么问题 怎么处理
+49.react setState深入  参数  原理
+50.react高阶组件
+51.redux
+52.祖先和子孙通信  不影响中间组件
+53.h5新特性
+54.react生命周期， 优化
+55.hooks
+56.promise A+规范   Promises/A规范。promise详解
+57.模拟promise.all
+58.https://blog.csdn.net/weixin_42114053/article/details/109816842
+59.CommonJS小组
+60.惰性求值
+61.懒加载
+62.装饰器  Promise缓存
+63.es5  es6  es7
+64.说一下mvc mvvm的理解
+65.代理  Proxy 和 反射
+66.BFC
+67.前端打包优化  监控 记录
+68.react数据传递
+69.react不加key进行dom操作的问题
+70.事务
+71.中间件
+72.前端底层
+73.快速迭代
+74.lowcode
+75.框架
+76.类数组 转数组 的方法，好多方法
+77.Dom节点是什么数据类型
+78.XMLHttpRequest
+79.fetch和axios的区别
+80.浏览器调试单步
+81.浏览器存储 深入
+82.前端node
+83.空数组，空对象核心原理，if判断为真，为什么
+84.window和document
+85.vue路由刷新跳转问题
+86.浏览器事件
+87.uncaught in promise
+88.let result = await promise
+89.拦截器，取消上个页面请求。防止多次请求，http缓存
+90.流式布局
+91.git大型操作 merge merge后的回退 解决冲突
+92.何时能用import export  单html文件如何使用
+93.一个img 两个src都显示
+<img class="yingdi-image png" style="display: block; margin: 0 auto;"
+src="https://pic.iyingdi.com/post/content/2021/04/17/aeb46b79-7bea-43eb-a2db-45d9e323b738.png?imageMogr2/format/jpg|imageMogr2/quality/70"
+data-original="https://pic.iyingdi.com/post/content/2021/04/17/aeb46b79-7bea-43eb-a2db-45d9e323b738.png?imageMogr2/format/jpg"
+data-src="https://pic.iyingdi.com/post/content/2021/04/17/aeb46b79-7bea-43eb-a2db-45d9e323b738.png?imageMogr2/format/jpg|imageMogr2/quality/70"><img
+class="yingdi-image png" style="display: block; margin: 0 auto;"
+src="https://pic.iyingdi.com/post/content/2021/04/17/8d66fba9-2f16-4f75-af90-d399f83294f5.png?imageMogr2/format/jpg|imageMogr2/quality/70"
+data-original="https://pic.iyingdi.com/post/content/2021/04/17/8d66fba9-2f16-4f75-af90-d399f83294f5.png?imageMogr2/format/jpg"
+data-src="https://pic.iyingdi.com/post/content/2021/04/17/8d66fba9-2f16-4f75-af90-d399f83294f5.png?imageMogr2/format/jpg|imageMogr2/quality/70">
+94.占位符
+95.python爬虫输出文件
+96.正则 选中特定标签属性并包含值  双引号
+97.webpack   webpack配置文件覆盖
+98.调用函数加括号不加括号区别  具体  比如el-upload on-success
+99.反向代理
+100.数组的深拷贝，vue table数组深拷贝的坑
+101.dom属性offset、offsetLeft等
+102.事件委托机制是如何实现的
+103.express多线程
+104.node -g详细 安装到哪里了 全局安装 package-lock
+105.单例模式
+106.this
+107.json规范
+108.反射 依赖注入的反射
+109.polyfill
+110.弱引用，weakSet weakMap的用途
+111.Set和Map的区别
+112.高阶函数
+113.装饰器
+114.跨域的多种实现方式，反向代理是如何实现跨域的
+115.浏览器缓存是如何工作的，举例从url获取一张图片
+116.实现一个promiseAll
+117.css让一个box不显示的方法说10种
+118.浏览器时间循环和node事件循环。微任务嵌套和宏任务嵌套的工作顺序。js执行栈，以及js都有哪些东西（全部），如何阅读JavaScript源码，js引擎(V8)
+119.浏览器工作机制原理
+120.实现reduce
+121.搞清this，怎么用this
+122.预加载，预加载器
+123.flex布局 容器 项目的一些默认值
+124.数组和对象在内存中是如何保存的
+美团优选面试
+css权重 优先级
+二分查找
+diff算法原理 深入
+时间戳转换成固定格式 类似moment
+三大框架的区别
+vue常用方法
+双向绑定和单向绑定是如何实现的
+node事件循环
+
+去哪面试
+事件委托机制
+set和map的区别
+express多线程
+
+YY面试
+new一个函数 都做了什么  详细一点 涉及内存  手写一个new
+闭包详细 存在哪个内存 内存溢出解决办法
+垃圾回收机制是怎么运作的 堆栈分别怎么回收
+dom渲染机制和事件捕获机制
+
+keep面试
+装饰器
+数组和方法在内存中是如何存储的
+
+125.dom level 和 css level
+126.前端polyfill
+127.上下文是什么东西
+128.AST语法书
+129.如何调试js代码。IDE，浏览器
+130.命名参数  形参  
+131.arguments  this
+132.实现一个函数可以[].functionxxx()   this获取
+133.那个抽奖效果
+134.不同的Object对象实例的一些常用效果，如String  Number
+135.编译器和解释器
+136.动态规划
+137.状态压缩
+138.拓扑排序
+139.jsjavasctip常用数组，Es678901
+140.防抖https://zhuanlan.zhihu.com/p/266667248 lodash防抖
+141.JavaScript每次更新是如何上线并应用的？（编译器编译？浏览器编译？）
+142.css模块化
+143.es模块化 commonjs
+144.ie和其他浏览器的区别
+145.图片 音频 视频 都是什么数据格式 是怎么存储和读取的？
+146.控制请求并发promise
+147.dom树渲染顺序。回流和重绘
+148.事件委托 target和currentTarget
+149.双等号原理
+150.非二叉树的深度广度优先遍历
+151.zIndex的优缺点 什么属性会影响zIndex的生效和失效
+152.flex布局
+153.vue跨组件通信方法
+154.sql的左右链接有什么优化的地方
+155.打断点
+156.文件格式到底是个什么东西txt pdf epub
+157.迭代器和生成器
+158.《从事件监听到状态管理》
+159.ssh原理，什么ssh，公钥私钥干嘛的，到底是怎么连接的，多对多？
+a.Permanently added the RSA host key for IP address '20.205.243.166' to the list of known hosts.
+160.环境变量是什么
+161.哪里能查看dom元素默认属性
+162.parseInt等方法是如何使用内存的。
+163.id与class  id能用吗  对性能有什么具体影响
+164.v8问题：console什么时候报错什么时候不报错
+165.window.getComputedStyle这种函数算什么函数，不同引擎不一样吗。是根据规范定义的吗，为什么所有浏览器都叫这个名字
+166.不同对象的事件支持，比如document.addEventListener。canvas就不支持键盘事件等
+167.addEventListener event都有哪些，属性都有哪些，比如mousedown点击事件的e.button
+168.JS中document和window的区别
+169.new Array发生了什么 为什么不fill 不能用map
+a.let selectionHandles = new Array(8).fill(undefined).map(()=> {return {x: 0, y: 0}})
+170.canvas原理 底层实现
+171.浏览器中的process.nextTick 和node什么关系 对事件循环机制有什么影响
+172.漏桶 令牌桶
+173.面向切面编程
 
 
 
