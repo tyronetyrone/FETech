@@ -1,7 +1,7 @@
 # web前端的前世今生
 ----前端技术慢聊
 ## 技术图谱
-![大前端](https://github.com/tyronetyrone/FETech/blob/main/FE.webp "FE")  
+![大前端](https://github.com/tyronetyrone/FETech/blob/main/img/FE.webp "FE")  
 [技能树1](https://github.com/xixileng/fe-knowledge)  
 [技能树2](https://f2e.tech/)  
 
@@ -11,6 +11,7 @@
 古早页面例子  
 1990年，搜索引擎的原型出现，Archie是第一代搜索引擎的原型。  
 1993年，Common Gateway Interface（CGI）协议诞生，可使用后端语言动态生成页面。此时主要使用Perl语言。注意，此时的网速还处于拨号上网阶段，速度大概20k左右，还没有步入宽带时代。打开浏览器的网络设置可以调控网速，回溯时光。由于现代web页面普遍比较臃肿（why？技术不熟练，负优化，卷），所以体验极差。  
+1993年，lua诞生于巴西。用于石油开采系统。
 1994年，网景公司（Netscape）发布了Navigator浏览器0.9版。第一个比较成熟的且流行的web浏览器，一度占有超过90%的市场份额。  
 1994年哈坤·利和伯特·波斯（Bert Bos）开始设计CSS  
 1994年10月，W3C（World Wide Web Consortium，即万维网联盟）成立。后续本组织将持续发布Web相关标准  
@@ -78,28 +79,147 @@ web应用通常分为三种。Native App、Web App 、Hybrid App。小程序可�
 
 ## 知识点
 ### 硬件
+
 ### 网络
+
+### CDN与云存储
 ### HTML5
 [标准文档](https://html.spec.whatwg.org/multipage/)  
-DOM(Document Object Model)渲染机制  
+- DOM(Document Object Model)渲染机制  
 浏览器引擎将HTML文档解析成DOM树，然后显示到屏幕上的过程  
 这里只讲简单原理，实现参考V8  
-DOM事件流  
+- DOM事件流  
+dom事件分为三个阶段：捕获阶段、目标阶段和冒泡阶段  
+什么是事件，我的理解是用户通过浏览器媒介和文档进行某种交互的瞬间  
+- 事件委托  
+
+- dom绑定事件的三种方式  
+1. 在html标签中直接绑定  
+```html
+<button onclick="alert('Hello, world!')">Click me</button>
+<!--只能绑定一个-->
+```
+2. 在js中获取到相应的dom元素后绑定  
+```js
+var button = document.getElementById('myButton');
+button.onclick = function() {
+  alert('Hello, world!');
+};
+// 还是只能绑定一个
+```
+3. 在js中使用addEventListene实现绑定  
+```js
+var button = document.getElementById('myButton');
+button.addEventListener('click', function() {
+  alert('Hello, world!');
+}, false);
+// 可以绑定多个
+```
 ### CSS3
 [标准文档](https://www.w3.org/TR/2018/REC-css-ui-3-20180621/)  
+- BFC
 ### ES6+
 [标准文档](https://tc39.es/ecma262/)  
-事件循环标准写在html标准中  
+- 事件循环标准写在html标准中  
 [事件循环标准](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops)  
-Promise机制  
+- Promise机制  
 [Promise A+ 英文](https://promisesaplus.com/)  
 [Promise A+ 中文](https://tsejx.github.io/javascript-guidebook/standard-built-in-objects/control-abstraction-objects/promise-standard/)  
-===的机制  
+- ===的机制  
 [抽象比较算法](https://tc39.es/ecma262/#sec-isstrictlyequal)  
+- call、apply 或 bind
+
+- 箭头函数和普通函数的区别
+  1. this 关键字的绑定：
+  在普通函数中，this关键字的值取决于函数如何被调用。它可能是全局对象（在非严格模式下），调用函数的对象，或者任何被 apply、call 或 bind 方法指定的对象。  
+  在箭头函数中，this关键字被固定绑定到它被定义时的上下文。换句话说，箭头函数不会创建自己的 this 上下文，所以 this 总是引用外层的 this 值。  
+  2. 构造函数：
+  普通函数可以用作构造函数，可以通过 new 关键字来创建新的对象实例。  
+  箭头函数不能用作构造函数，如果你试图这样做，JavaScript 会抛出一个错误。  
+  3. arguments 对象：
+  在普通函数中，你可以使用特殊的 arguments 对象来访问所有传递给函数的参数，无论这个函数预期会接收多少参数。  
+  箭头函数没有自己的 arguments 对象。然而，它们可以访问在它们的作用域链上的 arguments 对象。  
+  4. yield 关键字：
+  普通函数可以是 Generator 函数，可以使用 yield 关键字。  
+  箭头函数不能是 Generator 函数，不能使用 yield 关键字。  
+
+- 防抖
+  [动画](https://zhuanlan.zhihu.com/p/266667248)  
+  [lodash防抖](https://www.lodashjs.com/docs/lodash.debounce)
+  ```js
+  // 防抖的思想是：如果短时间内大量触发同一事件，那么只会执行一次函数。
+  function debounce(func, wait) {
+    let timeout;
+    return function () {
+      let context = this;
+      let args = arguments;
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        func.apply(context, args);
+      }, wait);
+    };
+  }
+  window.addEventListener('resize', debounce(function () {
+    console.log('Window size has changed!');
+    // 其他逻辑
+  }, 1000));
+  
+  // 执行一次再防抖
+  function debounce_once(func, wait) {
+    let timeout;
+    return function () {
+      let context = this;
+      let args = arguments;
+      if (!timeout) {
+        func.apply(context, args);
+      }
+      clearTimeout(timeout);
+      timeout = setTimeout(function () {
+        timeout = null;
+      }, wait);
+    };
+  }
+  
+  let searchInput = document.querySelector('#searchInput');
+  searchInput.addEventListener('input', debounce_once(function () {
+    console.log('Search: ' + this.value);
+    // 其他逻辑
+  }, 1000));
+  let submitButton = document.querySelector('#submitButton');
+  submitButton.addEventListener('click', debounce_once(function () {
+    console.log('Submit button clicked!');
+    // 其他逻辑
+  }, 1000));
+  ```
+- 节流
+```js
+// 节流的思想是：如果短时间内大量触发同一事件，那么在函数执行一次之后，该函数在指定的时间期限内不再工作，直至过了这段时间才重新生效。
+function throttle(func, wait) {
+    let timeout;
+    return function () {
+        let context = this;
+        let args = arguments;
+        if (!timeout) {
+            timeout = setTimeout(function () {
+                timeout = null;
+                func.apply(context, args);
+            }, wait);
+        }
+    };
+}
+
+window.addEventListener('scroll', throttle(function () {
+  console.log('Window is scrolling!');
+  // 其他逻辑
+}, 1000));
+```
 ### V8
 [标准文档](https://v8.js.cn/docs/)  
-事件循环  
-垃圾回收  
+- 事件循环  
+- 垃圾回收  
+- new关键字
+- 正则表达式
+
 ### Node20
 ### WebAssembly
 [标准文档](https://webassembly.github.io/spec/core/)  
@@ -131,7 +251,7 @@ Promise机制
 
 ## 练习题
 ### 事件循环
-[js事件循环](https://github.com/tyronetyrone/FETech/blob/main/JSEL.png)  
+![js事件循环](https://github.com/tyronetyrone/FETech/blob/main/img/JSEL.png)  
 ```javascript
 // 2018字节跳动经典面试题
 async function async1() {
@@ -166,14 +286,46 @@ setTimeout
 * */ 
 // 很不错的题，对于不知道的有点难，对于理解的又有点简单
 ```
+### 箭头函数
+```js
+'use strict'
+let o={
+  fn: () => {
+    console.log(this)
+  }
+};
+o.fn() // window
+let f=o.fn;
+f() // window
+
+let p={
+  fn: function() {
+    console.log(this)
+  }
+};
+p.fn() // p
+let f2=p.fn;
+f2() // 严格模式undefined，非严格模式window
+```
 
 
 ## 后记
 
+## 参考资料
+《高等数学》《线性代数》《近世代数》
+《{x}程序设计》
+《计算机组成原理》  
+《计算机网络》《TCP/IP详解》
+《操作系统》
+《数据结构与算法》
+《数据库》
+《编译原理》
+《几何学》
+《密码学》
+《拓扑学》
 
 
 ### 未整理
-三板斧。HTML，CSS，JavaScript
 
 
 https://what-is-fe.gitee.io/
@@ -192,10 +344,8 @@ c.    ]
 2.输入框回车换行问题
 3.多条件筛选
 a.
-4.dom绑定事件的三种方式，核心原理，区别。闭包防抖踩坑
-1. 在html标签中直接绑定；
-2. 在js中获取到相应的dom元素后绑定；
-3. 在js中使用addEventListener（）实现绑定；和html中绑定事件有什么区别
+4.闭包防抖踩坑
+
 
 5.konva图表
 6.axios中断请求
@@ -264,15 +414,6 @@ a.https://segmentfault.com/a/1190000025129635
 39.原型方法 实例方法 直接方法 静态方法  static
 40.promise链式调用原理  源码
 41.setState都做了什么事  在什么阶段更新state  源码
-42.箭头函数有什么区别  this指向
-var o={
-fn: () => { //普通函数和箭头函数
-this
-}
-};
-o.fn() // this是什么？
-var f=o.fn;
-f() // this是什么？
 43.webpack热更新
 44.canvas详细
 45.h5新特性 video audio等
@@ -296,7 +437,6 @@ f() // this是什么？
 63.es5  es6  es7
 64.说一下mvc mvvm的理解
 65.代理  Proxy 和 反射
-66.BFC
 67.前端打包优化  监控 记录
 68.react数据传递
 69.react不加key进行dom操作的问题
@@ -323,15 +463,6 @@ f() // this是什么？
 90.流式布局
 91.git大型操作 merge merge后的回退 解决冲突
 92.何时能用import export  单html文件如何使用
-93.一个img 两个src都显示
-<img class="yingdi-image png" style="display: block; margin: 0 auto;"
-src="https://pic.iyingdi.com/post/content/2021/04/17/aeb46b79-7bea-43eb-a2db-45d9e323b738.png?imageMogr2/format/jpg|imageMogr2/quality/70"
-data-original="https://pic.iyingdi.com/post/content/2021/04/17/aeb46b79-7bea-43eb-a2db-45d9e323b738.png?imageMogr2/format/jpg"
-data-src="https://pic.iyingdi.com/post/content/2021/04/17/aeb46b79-7bea-43eb-a2db-45d9e323b738.png?imageMogr2/format/jpg|imageMogr2/quality/70"><img
-class="yingdi-image png" style="display: block; margin: 0 auto;"
-src="https://pic.iyingdi.com/post/content/2021/04/17/8d66fba9-2f16-4f75-af90-d399f83294f5.png?imageMogr2/format/jpg|imageMogr2/quality/70"
-data-original="https://pic.iyingdi.com/post/content/2021/04/17/8d66fba9-2f16-4f75-af90-d399f83294f5.png?imageMogr2/format/jpg"
-data-src="https://pic.iyingdi.com/post/content/2021/04/17/8d66fba9-2f16-4f75-af90-d399f83294f5.png?imageMogr2/format/jpg|imageMogr2/quality/70">
 94.占位符
 95.python爬虫输出文件
 96.正则 选中特定标签属性并包含值  双引号
@@ -403,7 +534,6 @@ keep面试
 137.状态压缩
 138.拓扑排序
 139.jsjavasctip常用数组，Es678901
-140.防抖https://zhuanlan.zhihu.com/p/266667248 lodash防抖
 141.JavaScript每次更新是如何上线并应用的？（编译器编译？浏览器编译？）
 142.css模块化
 143.es模块化 commonjs
