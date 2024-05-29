@@ -125,72 +125,182 @@ button.addEventListener('click', function() {
 - Promise机制  
 [Promise A+ 英文](https://promisesaplus.com/)  
 [Promise A+ 中文](https://tsejx.github.io/javascript-guidebook/standard-built-in-objects/control-abstraction-objects/promise-standard/)  
+
+- javascript的数据类型
+- 关于类型检测
+1. typeof和instanceof  
+typeof会返回一个变量的基本类型，instanceof返回的是一个布尔值  
+instanceof可以准确地判断复杂引用数据类型，但是不能正确判断基础数据类型  
+typeof可以判断除null之外的基础数据类型，引用类型只能判断function  
+【结论】都不好用，建议不用  
+```js
+typeof 1 // 'number'
+typeof '1' // 'string'
+typeof undefined // 'undefined'
+typeof true // 'boolean'
+typeof Symbol() // 'symbol'
+typeof null // 'object'
+typeof [] // 'object'
+typeof {} // 'object'
+typeof console // 'object'
+typeof console.log // 'function'
+```
+2. Object.prototype.toString.call()  
+建议使用这个。Object.prototype.toString需要加一个call是因为有些函数自己重写了toString方法，可能无法达成目标。  
+```js
+//Object.prototype.toString.call()方法
+console.log(typeof Object.prototype.toString.call(undefined)); // string
+console.log(Object.prototype.toString.call(undefined) === '[object Undefined]'); // true
+//基础数据类型
+console.log(Object.prototype.toString.call(undefined)); // [object Undefined]
+console.log(Object.prototype.toString.call(null)); // [object Null]
+console.log(Object.prototype.toString.call(true)); // [object Boolean]
+console.log(Object.prototype.toString.call(123));    // [object Number]
+console.log(Object.prototype.toString.call('123')) ;   // [object String]
+console.log(Object.prototype.toString.call(/123/g)) ;   // [object RegExp]
+console.log(Object.prototype.toString.call(Symbol())) ;   // [object String]
+console.log(Object.prototype.toString.call(BigInt(9007199254740991))) ;   // [object BigInt]
+console.log(Object.prototype.toString.call(9007199254740991n)) ;   // [object BigInt]
+console.log(Object.prototype.toString.call(1n)) ;   // [object BigInt]
+//引用数据类型
+console.log(Object.prototype.toString.call({})) ;   // [object Object]
+console.log(Object.prototype.toString.call(new Object())) ;   // [object Object]
+console.log(Object.prototype.toString.call(new Date())); // [object Date]
+console.log(Object.prototype.toString.call(new RegExp())); // [object RegExp]
+console.log(Object.prototype.toString.call(new Array(0))); // [object Array]
+console.log(Object.prototype.toString.call([])); // [object Array]
+console.log(Object.prototype.toString.call(new Function())); // [object Function]
+console.log(Object.prototype.toString.call(new Set())); // [object Set]
+console.log(Object.prototype.toString.call(new WeakSet())); // [object WeakSet]
+console.log(Object.prototype.toString.call(new Map())); // [object Map]
+console.log(Object.prototype.toString.call(new WeakMap())); // [object WeakMap]
+console.log(Object.prototype.toString.call(new Error())); // [object Error]
+console.log(Object.prototype.toString.call(document)); // [object HTMLDocument]
+console.log(Object.prototype.toString.call(window)); // [object Window]
+
+```
+
+- 模拟实现JSON.stringify()
+```js
+function easyJSONStringify(data) {
+  let type = typeof data;
+  if (type !== 'object') { // 基础数据类型
+    let result = data;
+    if (Number.isNaN(data) || data === Infinity) {
+      result = 'null';
+    } else if (
+      type === 'function' ||
+      type === 'undefined' ||
+      type === 'symbol'
+    ) {
+      return undefined;
+    } else if (type === 'string') {
+      result = '"' + data + '"';
+    }
+    return String(result);
+  } else { // type === 'object' 引用数据类型
+    if (data === null) { // 考虑 typeof null === 'object'
+      return 'null';
+    } else if (data.toJSON && typeof data.toJSON === 'function') { // Date
+      return easyJSONStringify(data.toJSON())
+    } else if (Array.isArray(data)) {
+      let result = [];
+      data.forEach((item, index) => {
+        let typeItem = typeof item;
+        if (
+          typeItem === 'function' ||
+          typeItem === 'undefined' ||
+          typeItem === 'symbol'
+        ) {
+          result[index] =  'null';
+        } else {
+          result[index] = easyJSONStringify(item);
+        }
+      });
+      return (`[${result}]`).replace(/'/g, '\"');
+    } else { // object
+      let result = [];
+      Object.keys(data).forEach((item, index) => {
+        result.push('"' + item + '":' + easyJSONStringify(data[item]));
+      });
+      return (`{${result}}`).replace(/'/g, '\"');
+    }
+  }
+}
+
+let de = [1, undefined, NaN, [1, {a: 1, "b": {c : {1: 1, "1": '2'}}}], 3]
+
+console.log(JSON.stringify(de))    //[1,null,null,[1,{"a":1,"b":{"c":{"1":"2"}}}],3]
+console.log(easyJSONStringify(de)) //[1,null,null,[1,{"a":1,"b":{"c":{"1":"2"}}}],3]
+
+```
 - ===的机制  
-[抽象比较算法](https://tc39.es/ecma262/#sec-isstrictlyequal)  
+[抽象比较算法](https://tc39.es/ecma262/#sec-isstrictlyequal)
+
 - call、apply 或 bind
 
 - 箭头函数和普通函数的区别
-  1. this 关键字的绑定：
-  在普通函数中，this关键字的值取决于函数如何被调用。它可能是全局对象（在非严格模式下），调用函数的对象，或者任何被 apply、call 或 bind 方法指定的对象。  
-  在箭头函数中，this关键字被固定绑定到它被定义时的上下文。换句话说，箭头函数不会创建自己的 this 上下文，所以 this 总是引用外层的 this 值。  
-  2. 构造函数：
-  普通函数可以用作构造函数，可以通过 new 关键字来创建新的对象实例。  
-  箭头函数不能用作构造函数，如果你试图这样做，JavaScript 会抛出一个错误。  
-  3. arguments 对象：
-  在普通函数中，你可以使用特殊的 arguments 对象来访问所有传递给函数的参数，无论这个函数预期会接收多少参数。  
-  箭头函数没有自己的 arguments 对象。然而，它们可以访问在它们的作用域链上的 arguments 对象。  
-  4. yield 关键字：
-  普通函数可以是 Generator 函数，可以使用 yield 关键字。  
-  箭头函数不能是 Generator 函数，不能使用 yield 关键字。  
+1. this 关键字的绑定：
+在普通函数中，this关键字的值取决于函数如何被调用。它可能是全局对象（在非严格模式下），调用函数的对象，或者任何被 apply、call 或 bind 方法指定的对象。  
+在箭头函数中，this关键字被固定绑定到它被定义时的上下文。换句话说，箭头函数不会创建自己的 this 上下文，所以 this 总是引用外层的 this 值。  
+2. 构造函数：
+普通函数可以用作构造函数，可以通过 new 关键字来创建新的对象实例。  
+箭头函数不能用作构造函数，如果你试图这样做，JavaScript 会抛出一个错误。  
+3. arguments 对象：
+在普通函数中，你可以使用特殊的 arguments 对象来访问所有传递给函数的参数，无论这个函数预期会接收多少参数。  
+箭头函数没有自己的 arguments 对象。然而，它们可以访问在它们的作用域链上的 arguments 对象。  
+4. yield 关键字：
+普通函数可以是 Generator 函数，可以使用 yield 关键字。  
+箭头函数不能是 Generator 函数，不能使用 yield 关键字。  
 
-- 防抖
-  [动画](https://zhuanlan.zhihu.com/p/266667248)  
-  [lodash防抖](https://www.lodashjs.com/docs/lodash.debounce)
-  ```js
-  // 防抖的思想是：如果短时间内大量触发同一事件，那么只会执行一次函数。
-  function debounce(func, wait) {
-    let timeout;
-    return function () {
-      let context = this;
-      let args = arguments;
-      clearTimeout(timeout);
-      timeout = setTimeout(function () {
-        func.apply(context, args);
-      }, wait);
-    };
-  }
-  window.addEventListener('resize', debounce(function () {
-    console.log('Window size has changed!');
-    // 其他逻辑
-  }, 1000));
-  
-  // 执行一次再防抖
-  function debounce_once(func, wait) {
-    let timeout;
-    return function () {
-      let context = this;
-      let args = arguments;
-      if (!timeout) {
-        func.apply(context, args);
-      }
-      clearTimeout(timeout);
-      timeout = setTimeout(function () {
-        timeout = null;
-      }, wait);
-    };
-  }
-  
-  let searchInput = document.querySelector('#searchInput');
-  searchInput.addEventListener('input', debounce_once(function () {
-    console.log('Search: ' + this.value);
-    // 其他逻辑
-  }, 1000));
-  let submitButton = document.querySelector('#submitButton');
-  submitButton.addEventListener('click', debounce_once(function () {
-    console.log('Submit button clicked!');
-    // 其他逻辑
-  }, 1000));
-  ```
+- 防抖  
+[动画](https://zhuanlan.zhihu.com/p/266667248)  
+[lodash防抖](https://www.lodashjs.com/docs/lodash.debounce)
+```js
+// 防抖的思想是：如果短时间内大量触发同一事件，那么只会执行一次函数。
+function debounce(func, wait) {
+  let timeout;
+  return function () {
+    let context = this;
+    let args = arguments;
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      func.apply(context, args);
+    }, wait);
+  };
+}
+window.addEventListener('resize', debounce(function () {
+  console.log('Window size has changed!');
+  // 其他逻辑
+}, 1000));
+
+// 执行一次再防抖
+function debounce_once(func, wait) {
+  let timeout;
+  return function () {
+    let context = this;
+    let args = arguments;
+    if (!timeout) {
+      func.apply(context, args);
+    }
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      timeout = null;
+    }, wait);
+  };
+}
+
+let searchInput = document.querySelector('#searchInput');
+searchInput.addEventListener('input', debounce_once(function () {
+  console.log('Search: ' + this.value);
+  // 其他逻辑
+}, 1000));
+let submitButton = document.querySelector('#submitButton');
+submitButton.addEventListener('click', debounce_once(function () {
+  console.log('Submit button clicked!');
+  // 其他逻辑
+}, 1000));
+```
 - 节流
 ```js
 // 节流的思想是：如果短时间内大量触发同一事件，那么在函数执行一次之后，该函数在指定的时间期限内不再工作，直至过了这段时间才重新生效。
@@ -213,6 +323,7 @@ window.addEventListener('scroll', throttle(function () {
   // 其他逻辑
 }, 1000));
 ```
+
 ### V8
 [标准文档](https://v8.js.cn/docs/)  
 - 事件循环  
@@ -228,6 +339,16 @@ window.addEventListener('scroll', throttle(function () {
 ### Redux
 ### Vue3
 ### Vuex
+### 常用算法
+- 10个排序
+- 树的深度优先遍历（DFS）
+- 树的广度优先遍历（BFS）
+- 二分查找
+- 动态规划
+### 常用代码
+- 发布订阅
+- 数据检测
+- 简易深拷贝
 ### 工程化工具
 ### Babel
 ### Webpack
@@ -402,8 +523,7 @@ return res;
 28.形参使用扩展操作符 扩展运算符
 29.window
 30.模块
-31.instanceof
-32.new操作符
+
 33.对象字面量
 34.JavaScript堆和栈
 35.垃圾回收机制
