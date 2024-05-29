@@ -80,29 +80,29 @@ web应用通常分为三种。Native App、Web App 、Hybrid App。小程序可�
 ### 硬件
 ### 网络
 ### HTML5
-![标准文档](https://html.spec.whatwg.org/multipage/)  
+[标准文档](https://html.spec.whatwg.org/multipage/)  
 DOM(Document Object Model)渲染机制  
 浏览器引擎将HTML文档解析成DOM树，然后显示到屏幕上的过程  
 这里只讲简单原理，实现参考V8  
 DOM事件流  
 ### CSS3
-![标准文档](https://www.w3.org/TR/2018/REC-css-ui-3-20180621/)  
+[标准文档](https://www.w3.org/TR/2018/REC-css-ui-3-20180621/)  
 ### ES6+
-![标准文档](https://tc39.es/ecma262/)  
+[标准文档](https://tc39.es/ecma262/)  
 事件循环标准写在html标准中  
-![事件循环标准](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops)  
+[事件循环标准](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops)  
 Promise机制  
-![Promise A+ 英文](https://promisesaplus.com/)  
-![Promise A+ 中文](https://tsejx.github.io/javascript-guidebook/standard-built-in-objects/control-abstraction-objects/promise-standard/)  
+[Promise A+ 英文](https://promisesaplus.com/)  
+[Promise A+ 中文](https://tsejx.github.io/javascript-guidebook/standard-built-in-objects/control-abstraction-objects/promise-standard/)  
 ===的机制  
-![抽象比较算法](https://tc39.es/ecma262/#sec-isstrictlyequal)  
+[抽象比较算法](https://tc39.es/ecma262/#sec-isstrictlyequal)  
 ### V8
-![标准文档](https://v8.js.cn/docs/)  
+[标准文档](https://v8.js.cn/docs/)  
 事件循环  
 垃圾回收  
 ### Node20
 ### WebAssembly
-![标准文档](https://webassembly.github.io/spec/core/)  
+[标准文档](https://webassembly.github.io/spec/core/)  
 ### Angular18
 ### React18
 ### Redux
@@ -131,7 +131,7 @@ Promise机制
 
 ## 练习题
 ### 事件循环
-![js事件循环](https://github.com/tyronetyrone/FETech/blob/main/)  
+[js事件循环](https://github.com/tyronetyrone/FETech/blob/main/JSEL.png)  
 ```javascript
 // 2018字节跳动经典面试题
 async function async1() {
