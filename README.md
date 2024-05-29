@@ -126,8 +126,18 @@ button.addEventListener('click', function() {
 [Promise A+ 英文](https://promisesaplus.com/)  
 [Promise A+ 中文](https://tsejx.github.io/javascript-guidebook/standard-built-in-objects/control-abstraction-objects/promise-standard/)  
 
-- javascript的数据类型
-- 关于类型检测
+- javascript的数据类型  
+基础数据类型  
+Number  
+String  
+Boolean  
+Null  
+Undefined  
+BigInt  
+Symbol  
+引用数据类型  
+Object（包括Function和Array等，本质都是Object，都是继承自Object）  
+- 关于类型检测  
 1. typeof和instanceof  
 typeof会返回一个变量的基本类型，instanceof返回的是一个布尔值  
 instanceof可以准确地判断复杂引用数据类型，但是不能正确判断基础数据类型  
