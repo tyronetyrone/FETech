@@ -18,8 +18,10 @@
 1995年，微软公司操作系统windows95发布  
 1995年8月，微软公司IE 1.0发布。开启第一次浏览器战争（IE vs Netscape，1995-1998）  
 此时可以插入搜索引擎与SEO的介绍  
+此时可以插入搜索引擎与SEO的介绍  
 1995年，PHP诞生，可以取代Perl等进行更好的动态页面生成。热梗：PHP是世界上最好的语言。这个语言充满争议，虽然学习成本很低，易于使用，但是掌握之后会发现里面有很多设计问题。就是这样一个矛盾的语言。  
 1995年，javascript（ECMAScript）诞生。也许因为此时Java语言很火，所以新诞生的语言叫JavaScript。有趣的是，Javascript发明者很讨厌Java，布兰登·艾克(Brendan Eich)只用了10天就开发完了javascript语言，被称为c语言和self语言一夜情的产物JavaScript设计思路  
+用现在的话说，当时Brendan Eich是在Netscape打工，可能接到这个活，说排期2周。
 ```text
 （1）借鉴C语言的基本语法；
 （2）借鉴Java语言的数据类型和内存管理；
@@ -28,6 +30,7 @@
 ```
 
 Javascript诞生之初的两大问题。特性很少，性能很拉。  
+1996年，Netscape公司将JavaScript提交给了ECMA国际进行标准化，后来诞生了ECMA-262
 继续说第一次浏览器战争。  
 第一次浏览器战争以微软公司的IE浏览器胜利结束。可是说是绝地翻盘，据传是用了反编译抄袭和捆绑推广的方式。战争导致了浏览器的野蛮开发。尽管有标准（ECMA-262，JavaScript规范文档（ECMA262速度快）与（W3C，HTML与CSS的规范文档），微软却没有照规范来实现JavaScript、HTML与CSS，真实讽刺。而且微软还通过捆绑windows操作系统的方式推广IE浏览器。在当时即使网景已经占据了90%以上的市场份额，最终还是完败于IE。第一次浏览器战争我们应学到，技术只是工具，技术本身并不重要。  
 第一次浏览器战争的结果。Netscape公司被美国在线收购。浏览器兼容性问题出现。网景开放了源码，衍生出了Mozilla，衍生出了Firefox浏览器  
@@ -81,17 +84,27 @@ web应用通常分为三种。Native App、Web App 、Hybrid App。小程序可�
 ### 硬件
 
 ### 网络
+- http协议与http123  
+[RFC7234标准](https://www.rfc-editor.org/rfc/rfc7234.html)
+[http123]https://fafucoder.github.io/2020/09/14/linux-http2/  
+http缓存  
+http协议自动使用前端软件和后端软件（浏览器）和后端软件(服务端代码)同时支持的最高版本
 
 ### CDN与云存储
 ### HTML5
 [标准文档](https://html.spec.whatwg.org/multipage/)  
+[MDN中文文档](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element)
 - DOM(Document Object Model)渲染机制  
 浏览器引擎将HTML文档解析成DOM树，然后显示到屏幕上的过程  
 这里只讲简单原理，实现参考V8  
+dom树渲染顺序。回流和重绘  
+dom树示例  
+dom属性offset、offsetLeft等
 - DOM事件流  
 dom事件分为三个阶段：捕获阶段、目标阶段和冒泡阶段  
 什么是事件，我的理解是用户通过浏览器媒介和文档进行某种交互的瞬间  
 - 事件委托  
+target和currentTarget  
 
 - dom绑定事件的三种方式  
 1. 在html标签中直接绑定  
@@ -118,6 +131,10 @@ button.addEventListener('click', function() {
 ### CSS3
 [标准文档](https://www.w3.org/TR/2018/REC-css-ui-3-20180621/)  
 - BFC
+- css权重与优先级
+- css模块化
+- css让一个box不显示的方法说10种
+- id与class
 ### ES6+
 [标准文档](https://tc39.es/ecma262/)  
 - 事件循环标准写在html标准中  
@@ -125,7 +142,13 @@ button.addEventListener('click', function() {
 - Promise机制  
 [Promise A+ 英文](https://promisesaplus.com/)  
 [Promise A+ 中文](https://tsejx.github.io/javascript-guidebook/standard-built-in-objects/control-abstraction-objects/promise-standard/)  
-
+promise链式调用原理  源码  
+模拟promise.all  
+Promise缓存  
+uncaught in promise  
+let result = await promise  
+控制请求并发promise  
+实现一个promiseAll  
 - javascript的数据类型  
 基础数据类型  
 Number  
@@ -245,9 +268,21 @@ console.log(easyJSONStringify(de)) //[1,null,null,[1,{"a":1,"b":{"c":{"1":"2"}}}
 
 ```
 - ===的机制  
-[抽象比较算法](https://tc39.es/ecma262/#sec-isstrictlyequal)
+[抽象比较算法](https://tc39.es/ecma262/#sec-isstrictlyequal)  
 
-- call、apply 或 bind
+- arguments对象
+
+- this关键字
+在全局作用域或函数外部，this指向全局对象（在浏览器中是window，在Node.js中是global）。  
+在普通函数内部，this的值取决于函数是如何被调用的。如果函数是作为对象的方法被调用，this指向调用该方法的对象。如果函数是直接被调用（例如，myFunction()），this指向全局对象。  
+在箭头函数内部，this取决于箭头函数被定义时的上下文。箭头函数不会创建自己的this，它会从外部作用域继承this。  
+使用new操作符调用构造函数时，this指向新创建的对象。  
+使用call、apply或bind方法可以显式地设置this的值。  
+需要注意的是，严格模式下的this行为会有所不同。在严格模式下，如果函数是直接被调用，this的值是undefined，而不是全局对象  
+实现一个函数可以[].functionxxx()   this获取  
+- 其他语言中的此类关键字  
+Java:this。Python:self。总是指向当前实例
+- call、apply 或 bind  
 
 - 箭头函数和普通函数的区别
 1. this 关键字的绑定：
@@ -336,9 +371,18 @@ window.addEventListener('scroll', throttle(function () {
 
 ### V8
 [标准文档](https://v8.js.cn/docs/)  
+- chrome使用讲解
 - 事件循环  
-- 垃圾回收  
+- 垃圾回收与闭包  
+闭包详细 存在哪个内存 内存溢出解决办法
+存在堆内存
+垃圾回收机制
+https://segmentfault.com/a/1190000025129635
+垃圾回收机制是怎么运作的 堆栈分别怎么回收
 - new关键字
+new一个函数 都做了什么  详细一点 涉及内存  手写一个new
+new Array发生了什么 为什么不fill 不能用map
+let selectionHandles = new Array(8).fill(undefined).map(()=> {return {x: 0, y: 0}})
 - 正则表达式
 
 ### Node20
@@ -346,15 +390,56 @@ window.addEventListener('scroll', throttle(function () {
 [标准文档](https://webassembly.github.io/spec/core/)  
 ### Angular18
 ### React18
+react数据传递
+react不加key进行dom操作的问题
+react生命周期各阶段参数 react生命周期， 优化
+react setState深入  参数  原理
+react高阶组件
 ### Redux
-### Vue3
+### Vue3  
+1.vue form验证及清除验证文字
+a.this.$refs.form.clearValidate('portraitLabel')
+b.123
+portraitLabel: [
+{required: true, message: '请选择画像标签', trigger: 'blur'},
+{
+validator: (rule, value, callback) => {
+callback()promi
+}
+}
+c.    ]
+vue跨组件通信方法  
+vue常用方法  
+vue table数组深拷贝的坑  
+vue路由刷新跳转问题  
+vue3.0有什么兼容问题  
 ### Vuex
 ### 常用算法
-- 10个排序
+- 10个排序 拓扑排序
 - 树的深度优先遍历（DFS）
 - 树的广度优先遍历（BFS）
+- 树的前中后序遍历
+```js
+let preorderTraversal = function(root) {
+  let res = [];
+  const dfs = function(root){
+    if(root === null) return ;
+    //先序遍历所以从父节点开始
+    res.push(root.val);
+    //递归左子树
+    dfs(root.left);
+    //递归右子树
+    dfs(root.right);
+  }
+  //只使用一个参数 使用闭包进行存储结果
+  dfs(root);
+  return res;
+};
+```
 - 二分查找
 - 动态规划
+- 状态压缩
+
 ### 常用代码
 - 发布订阅
 - 数据检测
@@ -375,6 +460,25 @@ window.addEventListener('scroll', throttle(function () {
 ### Unity
 ### Flutter
 ### 其他设备&路由器&电视屏&嵌入式设备
+### 必备技术
+#### git版本管理与协作
+git flow工作流  
+git概览  
+rebase  
+merge  
+cherry-pick  
+revert  
+reset  
+handle conflict  
+add  
+pull  
+fetch  
+push  
+合并提交rebase  
+switch  
+checkout  
+stash
+
 ## 我认为不重要的知识点
 ### TypeScript
 ### SASS&LESS
@@ -457,63 +561,18 @@ f2() // 严格模式undefined，非严格模式window
 
 
 ### 未整理
-
-
-https://what-is-fe.gitee.io/
-工作内容博客笔记
-1.vue form验证及清除验证文字
-a.this.$refs.form.clearValidate('portraitLabel')
-b.123
-portraitLabel: [
-{required: true, message: '请选择画像标签', trigger: 'blur'},
-{
-validator: (rule, value, callback) => {
-callback()promi
-}
-}
-c.    ]
-2.输入框回车换行问题
+1.console报错行数对不上的问题是为什么
+2.diff算法原理 深入
 3.多条件筛选
-a.
-4.闭包防抖踩坑
-
-
-5.konva图表
-6.axios中断请求
-
-知识点
-1.有没有遇到过console报错行数对不上的问题
-2.diff算法
-3.可编程管线技术
-4.闭包
-a.var preorderTraversal = function(root) {
-let res=[];
-const dfs=function(root){
-if(root===null)return ;
-//先序遍历所以从父节点开始
-res.push(root.val);
-//递归左子树
-dfs(root.left);
-//递归右子树
-dfs(root.right);
-}
-//只使用一个参数 使用闭包进行存储结果
-dfs(root);
-return res;
-};
-
-
-
+4.可编程管线技术
 5.clearTimeout
 6.Same-value-zero equality算法
-7.var
+7.var let const
 8.Array = arr.flat([depth]);
 9.深度优先遍历和广度优先遍历，递归
 10.暂时性死区
-11.react生命周期各阶段参数
 12.cookieParser源码
 13.浏览器缓存
-14.http缓存
 15.call 和 apply 手写实现
 16.valueOf
 17.水平垂直居中https://github.com/Advanced-Frontend/Daily-Interview-Question/issues/92
@@ -525,6 +584,7 @@ return res;
 23.webpack热更新
 24.函数科里化
 25.原型与原型链
+39.原型方法 实例方法 静态方法
 ●prototype
 ●__proto__
 ●[[prototype]]
@@ -533,51 +593,31 @@ return res;
 28.形参使用扩展操作符 扩展运算符
 29.window
 30.模块
-
 33.对象字面量
-34.JavaScript堆和栈
-35.垃圾回收机制
-a.https://segmentfault.com/a/1190000025129635
 36.MutationObserver 前端回溯
 37.cookieparser
 38.浏览器cookie 前端能干什么  后端能干什么
-39.原型方法 实例方法 直接方法 静态方法  static
-40.promise链式调用原理  源码
 41.setState都做了什么事  在什么阶段更新state  源码
 43.webpack热更新
 44.canvas详细
 45.h5新特性 video audio等
-46.vue3.0有什么兼容问题
 47.const let原理 const为什么能修改对象深层属性
 48.跨域 后台设置 *  有什么问题 怎么处理
-49.react setState深入  参数  原理
-50.react高阶组件
 51.redux
 52.祖先和子孙通信  不影响中间组件
 53.h5新特性
-54.react生命周期， 优化
 55.hooks
-56.promise A+规范   Promises/A规范。promise详解
-57.模拟promise.all
 58.https://blog.csdn.net/weixin_42114053/article/details/109816842
 59.CommonJS小组
 60.惰性求值
 61.懒加载
-62.装饰器  Promise缓存
-63.es5  es6  es7
 64.说一下mvc mvvm的理解
 65.代理  Proxy 和 反射
 67.前端打包优化  监控 记录
-68.react数据传递
-69.react不加key进行dom操作的问题
 70.事务
 71.中间件
-72.前端底层
-73.快速迭代
 74.lowcode
-75.框架
 76.类数组 转数组 的方法，好多方法
-77.Dom节点是什么数据类型
 78.XMLHttpRequest
 79.fetch和axios的区别
 80.浏览器调试单步
@@ -585,13 +625,9 @@ a.https://segmentfault.com/a/1190000025129635
 82.前端node
 83.空数组，空对象核心原理，if判断为真，为什么
 84.window和document
-85.vue路由刷新跳转问题
 86.浏览器事件
-87.uncaught in promise
-88.let result = await promise
-89.拦截器，取消上个页面请求。防止多次请求，http缓存
+89.拦截器，取消上个页面请求。防止多次请求
 90.流式布局
-91.git大型操作 merge merge后的回退 解决冲突
 92.何时能用import export  单html文件如何使用
 94.占位符
 95.python爬虫输出文件
@@ -599,13 +635,10 @@ a.https://segmentfault.com/a/1190000025129635
 97.webpack   webpack配置文件覆盖
 98.调用函数加括号不加括号区别  具体  比如el-upload on-success
 99.反向代理
-100.数组的深拷贝，vue table数组深拷贝的坑
-101.dom属性offset、offsetLeft等
-102.事件委托机制是如何实现的
+100.数组的深拷贝，
 103.express多线程
 104.node -g详细 安装到哪里了 全局安装 package-lock
 105.单例模式
-106.this
 107.json规范
 108.反射 依赖注入的反射
 109.polyfill
@@ -615,68 +648,35 @@ a.https://segmentfault.com/a/1190000025129635
 113.装饰器
 114.跨域的多种实现方式，反向代理是如何实现跨域的
 115.浏览器缓存是如何工作的，举例从url获取一张图片
-116.实现一个promiseAll
-117.css让一个box不显示的方法说10种
 118.浏览器时间循环和node事件循环。微任务嵌套和宏任务嵌套的工作顺序。js执行栈，以及js都有哪些东西（全部），如何阅读JavaScript源码，js引擎(V8)
 119.浏览器工作机制原理
 120.实现reduce
-121.搞清this，怎么用this
 122.预加载，预加载器
 123.flex布局 容器 项目的一些默认值
 124.数组和对象在内存中是如何保存的
-美团优选面试
-css权重 优先级
-二分查找
-diff算法原理 深入
+5.konva图表
+6.axios中断请求
 时间戳转换成固定格式 类似moment
-三大框架的区别
-vue常用方法
 双向绑定和单向绑定是如何实现的
-node事件循环
-
-去哪面试
-事件委托机制
-set和map的区别
 express多线程
-
-YY面试
-new一个函数 都做了什么  详细一点 涉及内存  手写一个new
-闭包详细 存在哪个内存 内存溢出解决办法
-垃圾回收机制是怎么运作的 堆栈分别怎么回收
-dom渲染机制和事件捕获机制
-
-keep面试
-装饰器
 数组和方法在内存中是如何存储的
-
-125.dom level 和 css level
 126.前端polyfill
 127.上下文是什么东西
-128.AST语法书
+128.AST语法树
 129.如何调试js代码。IDE，浏览器
-130.命名参数  形参  
-131.arguments  this
-132.实现一个函数可以[].functionxxx()   this获取
+130.命名参数  形参
 133.那个抽奖效果
 134.不同的Object对象实例的一些常用效果，如String  Number
 135.编译器和解释器
-136.动态规划
-137.状态压缩
-138.拓扑排序
 139.jsjavasctip常用数组，Es678901
 141.JavaScript每次更新是如何上线并应用的？（编译器编译？浏览器编译？）
-142.css模块化
 143.es模块化 commonjs
 144.ie和其他浏览器的区别
 145.图片 音频 视频 都是什么数据格式 是怎么存储和读取的？
-146.控制请求并发promise
-147.dom树渲染顺序。回流和重绘
-148.事件委托 target和currentTarget
 149.双等号原理
 150.非二叉树的深度广度优先遍历
 151.zIndex的优缺点 什么属性会影响zIndex的生效和失效
 152.flex布局
-153.vue跨组件通信方法
 154.sql的左右链接有什么优化的地方
 155.打断点
 156.文件格式到底是个什么东西txt pdf epub
@@ -685,16 +685,11 @@ keep面试
 159.ssh原理，什么ssh，公钥私钥干嘛的，到底是怎么连接的，多对多？
 a.Permanently added the RSA host key for IP address '20.205.243.166' to the list of known hosts.
 160.环境变量是什么
-161.哪里能查看dom元素默认属性
 162.parseInt等方法是如何使用内存的。
-163.id与class  id能用吗  对性能有什么具体影响
-164.v8问题：console什么时候报错什么时候不报错
 165.window.getComputedStyle这种函数算什么函数，不同引擎不一样吗。是根据规范定义的吗，为什么所有浏览器都叫这个名字
 166.不同对象的事件支持，比如document.addEventListener。canvas就不支持键盘事件等
 167.addEventListener event都有哪些，属性都有哪些，比如mousedown点击事件的e.button
 168.JS中document和window的区别
-169.new Array发生了什么 为什么不fill 不能用map
-a.let selectionHandles = new Array(8).fill(undefined).map(()=> {return {x: 0, y: 0}})
 170.canvas原理 底层实现
 171.浏览器中的process.nextTick 和node什么关系 对事件循环机制有什么影响
 172.漏桶 令牌桶
