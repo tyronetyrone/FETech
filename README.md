@@ -128,6 +128,15 @@ button.addEventListener('click', function() {
 }, false);
 // 可以绑定多个
 ```
+- XML与XHTML。一种数据格式
+  eXtensible Markup Language 可扩展标记语言。特点：自定义数据标签。用途：数据存储和数据交换。我认为已经没有太多学习的必要，因为有json和HTML5。除非你在使用或维护前期问世的系统，必须使用XML。  
+  HyperText Markup Language 超文本标记语言。特点：预定义数据标签  
+  eXtensible HyperText Markup Language 可扩展超文本标记语言。我认为没有必要学习  
+
+- addEventListener查询event  
+[MDN](https://developer.mozilla.org/zh-CN/docs/Web/Events)  
+
+
 ### CSS3
 [标准文档](https://www.w3.org/TR/2018/REC-css-ui-3-20180621/)  
 - BFC
@@ -139,6 +148,8 @@ button.addEventListener('click', function() {
 [标准文档](https://tc39.es/ecma262/)  
 - 事件循环标准写在html标准中  
 [事件循环标准](https://html.spec.whatwg.org/multipage/webappapis.html#event-loops)  
+常见微任务：queueMicrotask、Promise、MutationObserver、process.nextTick等。  
+常见宏任务：ajax、setTimeout、setInterval、script（js整体代码）、IO操作、UI交互、postMessage等。  
 - Promise机制  
 [Promise A+ 英文](https://promisesaplus.com/)  
 [Promise A+ 中文](https://tsejx.github.io/javascript-guidebook/standard-built-in-objects/control-abstraction-objects/promise-standard/)  
@@ -368,9 +379,25 @@ window.addEventListener('scroll', throttle(function () {
   // 其他逻辑
 }, 1000));
 ```
+- 数组与常用方法
 
 ### V8
-[标准文档](https://v8.js.cn/docs/)  
+[v8文档](https://v8.js.cn/docs/)  
+[chrome文档](https://developers.google.com/focus/web-development?hl=zh-cn)  
+- chrome架构讲解
+chrome是一个多进程多线程架构的应用程序。启动chrome浏览器之后，chrome会启动以下进程
+  浏览器进程：负责浏览器的用户界面，如前进、后退、地址栏等。这个进程也负责与操作系统进行交互，如文件系统操作和网络状态的监控。  
+  渲染进程：每个标签页都有一个或多个渲染进程，负责处理该标签页的 HTML、CSS 和 JavaScript。  
+  插件进程：每个插件都有一个插件进程。  
+  GPU 进程：处理 GPU 任务。  
+  网络进程：处理网络请求。  
+在每个进程中，都可能有多个线程在并行运行。例如，在渲染进程中，可能有以下几种类型的线程：
+  主线程（渲染线程）：这个线程负责解析 HTML、执行 JavaScript、计算 CSS 样式、布局和绘制网页等。  
+  合成线程：这个线程负责生成位图，然后发送给 GPU 进程。  
+  图块线程：这个线程负责将网页分割成多个小块（或称为图块），然后分别渲染。  
+  网络线程：这个线程负责处理网络请求，如加载图片、下载 CSS 和 JavaScript 等，如 fetch 或 XMLHttpRequest。    
+  计时器线程：处理 setTimeout 和 setInterval 等异步任务。    
+  Web Worker 线程：Web Workers 允许开发者在后台线程中运行 JavaScript，这样就不会阻塞主线程。  
 - chrome使用讲解
 - 事件循环  
 - 垃圾回收与闭包  
@@ -379,7 +406,7 @@ window.addEventListener('scroll', throttle(function () {
 垃圾回收机制
 https://segmentfault.com/a/1190000025129635
 垃圾回收机制是怎么运作的 堆栈分别怎么回收
-- new关键字
+- new关键字Ï
 new一个函数 都做了什么  详细一点 涉及内存  手写一个new
 new Array发生了什么 为什么不fill 不能用map
 let selectionHandles = new Array(8).fill(undefined).map(()=> {return {x: 0, y: 0}})
@@ -419,6 +446,7 @@ vue3.0有什么兼容问题
 - 树的深度优先遍历（DFS）
 - 树的广度优先遍历（BFS）
 - 树的前中后序遍历
+- 漏桶算法与令牌桶算法
 ```js
 let preorderTraversal = function(root) {
   let res = [];
@@ -444,6 +472,20 @@ let preorderTraversal = function(root) {
 - 发布订阅
 - 数据检测
 - 简易深拷贝
+- 时间戳转换成固定格式 类似moment，dayjs
+```js
+function formatTimestamp(timestamp) {
+  let date = new Date(timestamp);
+  let year = date.getFullYear();
+  let month = ("0" + (date.getMonth() + 1)).slice(-2); // Months are zero based
+  let day = ("0" + date.getDate()).slice(-2);
+  let hours = ("0" + date.getHours()).slice(-2);
+  let minutes = ("0" + date.getMinutes()).slice(-2);
+  let seconds = ("0" + date.getSeconds()).slice(-2);
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+}
+console.log(formatTimestamp(Date.now()));  // Date.now()是毫秒时间戳
+```
 ### 工程化工具
 ### Babel
 ### Webpack
@@ -559,6 +601,9 @@ f2() // 严格模式undefined，非严格模式window
 《密码学》
 《拓扑学》
 
+### 术语&黑话
+面向切面编程。一种编程范式，前后端都可以使用
+
 
 ### 未整理
 1.console报错行数对不上的问题是为什么
@@ -583,11 +628,12 @@ f2() // 严格模式undefined，非严格模式window
 22.JavaScript继承
 23.webpack热更新
 24.函数科里化
-25.原型与原型链
-39.原型方法 实例方法 静态方法
-●prototype
-●__proto__
-●[[prototype]]
+25.原型与原型链。原型方法 实例方法 静态方法
+- `prototype`、`__proto__`、`[[prototype]]`三者的区别
+`[[Prototype]]`存放了对原型对象`prototype`的引用，`[[Prototype]]`不可获取，参考下一行
+`__proto__`不是标准，但是大部分浏览器都实现了，可以理解为`[[prototype]]`的getter/setter，一般用Object.getPrototypeOf 和 Object.setPrototypeOf替代
+`prototype`是 ECMAScript 语法规范的标准，所有函数对象都有，非函数对象没有。但不代表非函数对象没有原型，下面就要讲到原型链
+
 26.函数 箭头函数，同步和异步
 27.形参 匿名函数 xx函数
 28.形参使用扩展操作符 扩展运算符
@@ -630,7 +676,6 @@ f2() // 严格模式undefined，非严格模式window
 90.流式布局
 92.何时能用import export  单html文件如何使用
 94.占位符
-95.python爬虫输出文件
 96.正则 选中特定标签属性并包含值  双引号
 97.webpack   webpack配置文件覆盖
 98.调用函数加括号不加括号区别  具体  比如el-upload on-success
@@ -642,8 +687,7 @@ f2() // 严格模式undefined，非严格模式window
 107.json规范
 108.反射 依赖注入的反射
 109.polyfill
-110.弱引用，weakSet weakMap的用途
-111.Set和Map的区别
+110.weakSet weakMap的用途。Set和Map的区别。搞懂弱引用
 112.高阶函数
 113.装饰器
 114.跨域的多种实现方式，反向代理是如何实现跨域的
@@ -654,9 +698,8 @@ f2() // 严格模式undefined，非严格模式window
 122.预加载，预加载器
 123.flex布局 容器 项目的一些默认值
 124.数组和对象在内存中是如何保存的
-5.konva图表
+
 6.axios中断请求
-时间戳转换成固定格式 类似moment
 双向绑定和单向绑定是如何实现的
 express多线程
 数组和方法在内存中是如何存储的
@@ -668,7 +711,6 @@ express多线程
 133.那个抽奖效果
 134.不同的Object对象实例的一些常用效果，如String  Number
 135.编译器和解释器
-139.jsjavasctip常用数组，Es678901
 141.JavaScript每次更新是如何上线并应用的？（编译器编译？浏览器编译？）
 143.es模块化 commonjs
 144.ie和其他浏览器的区别
@@ -688,12 +730,11 @@ a.Permanently added the RSA host key for IP address '20.205.243.166' to the list
 162.parseInt等方法是如何使用内存的。
 165.window.getComputedStyle这种函数算什么函数，不同引擎不一样吗。是根据规范定义的吗，为什么所有浏览器都叫这个名字
 166.不同对象的事件支持，比如document.addEventListener。canvas就不支持键盘事件等
-167.addEventListener event都有哪些，属性都有哪些，比如mousedown点击事件的e.button
 168.JS中document和window的区别
 170.canvas原理 底层实现
 171.浏览器中的process.nextTick 和node什么关系 对事件循环机制有什么影响
-172.漏桶 令牌桶
-173.面向切面编程
+5.konva图表
+
 
 
 
